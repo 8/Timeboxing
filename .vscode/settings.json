@@ -1,0 +1,15 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/.vs/": true,
+    "**/.ionide/": true,
+    "**/.idea/": true,
+    "**/*.ncrunchsolution": true,
+    "**/*.ncrunchsolution.*": true,
+    "**/*.sln.DotSettings.user": true
+  }
+}

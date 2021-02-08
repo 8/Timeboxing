@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <!--<TargetFrameworks>net48;netcoreapp5.0</TargetFrameworks>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Render.fs" />
+    <Compile Include="Preview.fs" />
+    <Compile Include="ColorPalettesTest.fs" />
+    <Compile Include="ViewsTest.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+    <PackageReference Include="FSharp.Control.Reactive" Version="4.5.0" />
+    <PackageReference Include="FsUnit.xUnit" Version="4.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="assets\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Timeboxing\Timeboxing.fsproj" />
+  </ItemGroup>
+
+</Project>
