@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!--<TargetFramework>netcoreapp5.0</TargetFramework>-->
+    <TargetFrameworks>net48;netcoreapp5.0</TargetFrameworks>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="AppBuilderExtensions.fs" />
+    <Compile Include="ControlExtensions.fs" />
+    <Compile Include="ColorPalettes.fs" />
+    <Compile Include="Image.fs" />
+    <Compile Include="Assets.fs" />
+    <Compile Include="Version.fs" />
+    <Compile Include="State.fs" />
+    <Compile Include="Views.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="assets\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Svg.Skia" Version="0.10.0" />
+    <PackageReference Include="FSharp.Control.Reactive" Version="4.5.0" />
+  </ItemGroup>
+  
+</Project>

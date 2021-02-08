@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Timeboxing", "Timeboxing\Timeboxing.fsproj", "{279C1123-58AB-4B65-A428-3F9B0A98AEB4}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Timeboxing.Test", "Timeboxing.Test\Timeboxing.Test.fsproj", "{B9545FFF-55FA-42CB-8099-8F5D8B0EFCBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{279C1123-58AB-4B65-A428-3F9B0A98AEB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{279C1123-58AB-4B65-A428-3F9B0A98AEB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{279C1123-58AB-4B65-A428-3F9B0A98AEB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{279C1123-58AB-4B65-A428-3F9B0A98AEB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9545FFF-55FA-42CB-8099-8F5D8B0EFCBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9545FFF-55FA-42CB-8099-8F5D8B0EFCBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9545FFF-55FA-42CB-8099-8F5D8B0EFCBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9545FFF-55FA-42CB-8099-8F5D8B0EFCBA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E40FB0AA-9270-4AFF-A330-E679281D4C0D}
+	EndGlobalSection
+EndGlobal
