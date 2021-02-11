@@ -3,6 +3,10 @@ Timeboxing is a AvaloniaUI based Desktop Application, written in F# by Martin Kr
 
 Minimal AvaloniaUI / F# based proof-of-concept app.
 
+## Additional Info
+For additional information please visit:
+https://lostindetails.com/articles/Desktop-Apps-with-AvaloniaUI-and-FSharp
+
 ## Sourcecode POI
 - Avalonia UI
 - F#
