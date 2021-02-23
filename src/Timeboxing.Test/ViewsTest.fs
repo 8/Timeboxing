@@ -40,12 +40,14 @@ let titleViewTest () =
 
 [<Fact>]
 let titleViewFullTest () =
-  let state = 
+  let state count = 
     let state = State.init ()
-    state.CompletedTimeboxes.OnNext(8)
+    state.CompletedTimeboxes.OnNext(count)
     state
-
-  renderSizeAuto "titleView-full" (fun () -> titleView state)
+    
+  renderSizeAuto "titleView-empty" (fun () -> titleView (state 0))
+  renderSizeAuto "titleView-half" (fun () -> titleView (state 4))
+  renderSizeAuto "titleView-full" (fun () -> titleView (state 8))
 
 [<Fact>]
 let buttonViewTest () =
@@ -96,6 +98,5 @@ let screenshots () =
   render "half" half
   render "full" full
   render "action" action
-  
   
   ()
