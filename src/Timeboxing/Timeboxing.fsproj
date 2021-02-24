@@ -16,6 +16,7 @@
     <Compile Include="Version.fs" />
     <Compile Include="State.fs" />
     <Compile Include="Views.fs" />
+    <Compile Include="Audio.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
@@ -28,6 +29,8 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
     <PackageReference Include="Avalonia.Svg.Skia" Version="0.10.0" />
     <PackageReference Include="FSharp.Control.Reactive" Version="4.5.0" />
+    <PackageReference Include="libVLCSharp" Version="3.4.9" />
+    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.12" />
   </ItemGroup>
   
 </Project>
