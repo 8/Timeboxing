@@ -14,7 +14,7 @@ open Timeboxing.Program
 open Timeboxing.Views
 
 let render settings name (controlFactory  : unit -> IControl)  =
-  let appBuilder = createApp ()
+  let (appBuilder,_,_) = createApp ()
   let filePath =
     Path.Combine [|
       Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
