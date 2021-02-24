@@ -11,8 +11,8 @@
     <Compile Include="AppBuilderExtensions.fs" />
     <Compile Include="ControlExtensions.fs" />
     <Compile Include="ColorPalettes.fs" />
-    <Compile Include="Image.fs" />
     <Compile Include="Assets.fs" />
+    <Compile Include="Svg.fs" />
     <Compile Include="Version.fs" />
     <Compile Include="State.fs" />
     <Compile Include="Views.fs" />

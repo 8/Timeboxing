@@ -15,8 +15,17 @@ module Internal =
   let defaultPath () =
     Path.Combine (Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Media", "Windows Notify.wav")
 
-  let mediaFrom (path : string) (vlc : LibVLC) =
+  let mediaFromPath (path : string) (vlc : LibVLC) =
     new Media(vlc, path, FromType.FromPath)
+    
+  let mediaFromStream vlc stream =
+    new Media(vlc, new StreamMediaInput(stream))
+    
+  let mediaFromAsset vlc asset =
+    mediaFromStream vlc (Assets.streamFrom asset)
+    
+  let mediaNotification vlc =
+    lazy mediaFromAsset vlc Assets.notification
     
   let playerFrom (media : Media) =
     new MediaPlayer (media)
@@ -28,24 +37,24 @@ module Internal =
 open Internal
 
 let setup (state : State) =
-  
+
   let vlc = init ()
-  let media = vlc |> Option.map (defaultPath() |> mediaFrom)
-  let player = media |> Option.map playerFrom
+  let media = vlc |> Option.map mediaNotification
+  let player = media |> Option.map (fun media -> lazy (media.Value |> playerFrom))
   
-  let subscribe (player : MediaPlayer) =
+  let subscribe (player : Lazy<MediaPlayer>) =
     state.CompletedTimeboxes
     |> Observable.pairwise
     |> Observable.filter (fun (t1, t2) -> t2 - t1 = 1)
-    |> Observable.subscribe (fun _ -> play player |> ignore)
+    |> Observable.subscribe (fun _ -> play player.Value |> ignore)
     
   let subscription = player |> Option.map subscribe
     
   let dispose (disposeable : IDisposable) = disposeable.Dispose()
   let disposeAll () =
     subscription |> Option.iter dispose
-    player |> Option.iter dispose
-    media |> Option.iter dispose
+    player |> Option.iter (fun l -> dispose l.Value)
+    media |> Option.iter (fun l -> dispose l.Value)
     vlc |> Option.iter dispose
 
   { new IDisposable with member this.Dispose() = disposeAll() }  

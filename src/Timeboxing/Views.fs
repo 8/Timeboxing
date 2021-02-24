@@ -11,13 +11,9 @@ open Avalonia.Styling
 open Avalonia.VisualTree
 open FSharp.Control.Reactive
 open Timeboxing.ControlExtensions
+open Timeboxing.Svg
 
 let colorPalette = ColorPalettes.trueGray
-
-let loadSvgFromAssets asset =
-  let uri = Assets.uri asset
-  match asset with
-  | Assets.SvgAsset svg -> Image.loadSvg uri
 
 let completedView (state : State) : IControl =
   let transparent = SolidColorBrush Colors.Transparent
@@ -218,7 +214,7 @@ let buttonsView (state : State) : IControl =
         Children = [
           Button (
             Column = 0,
-            Content = Image (Source = loadSvgFromAssets Assets.clock),
+            Content = Image (Source = fromAsset Assets.clock),
             SetupControl = (fun control ->
               styler control
               match control with
@@ -237,7 +233,7 @@ let buttonsView (state : State) : IControl =
           )
           Button (
             Column = 1,
-            Content = Image (Source = loadSvgFromAssets Assets.coffee),
+            Content = Image (Source = fromAsset Assets.coffee),
             SetupControl = (fun control ->
               styler control
               match control with
@@ -255,7 +251,7 @@ let buttonsView (state : State) : IControl =
           )
           Button (
             Column = 2,
-            Content = Image (Source = loadSvgFromAssets Assets.playPause),
+            Content = Image (Source = fromAsset Assets.playPause),
             SetupControl = styler,
             SetupButton = (fun (button : Button) ->
               button.Click
