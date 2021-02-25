@@ -1,7 +1,7 @@
 ﻿module Timeboxing.Test.AudioTest
 
 open Xunit
-open LibVLCSharp.Shared
+//open LibVLCSharp.Shared
 
-[<Fact>]
-let ``initialize native libraries`` () = Core.Initialize ()
+//[<Fact>]
+//let ``initialize native libraries`` () = Core.Initialize ()
