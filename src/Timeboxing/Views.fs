@@ -271,8 +271,40 @@ let buttonsView (state : State) : IControl =
       )
   )
 
+let contextMenuView (state : State)  =
+    
+  ContextMenu (
+    Items = [
+      MenuItem (
+        Header = "Reset Completed Timeboxes",
+        SetupMenuItem = fun menuItem ->
+          menuItem.Click
+          |> Observable.subscribe (fun _ -> state.CompletedTimeboxes.OnNext(0))
+          |> ignore
+      ) :> Control
+      CheckBox (
+        Content = "Show Always on Top",
+        Margin = Thickness 0.,
+        SetupCheckBox = fun checkBox ->
+          
+          state.IsAlwaysOnTop.Subscribe(fun isAlwaysOnTop -> checkBox.IsChecked <- isAlwaysOnTop)
+          |> ignore
+          
+          let updateIsAlwaysOnTop _ =
+            checkBox.IsChecked
+            |> Option.ofNullable
+            |> Option.iter state.IsAlwaysOnTop.OnNext
+
+          checkBox.Checked |> Observable.subscribe updateIsAlwaysOnTop |> ignore
+          checkBox.Unchecked |> Observable.subscribe updateIsAlwaysOnTop |> ignore
+      ) :> Control
+
+    ]
+  )
+
 let mainView state : IControl =
   upcast StackPanel (
+    ContextMenu = (contextMenuView state),
     Orientation = Orientation.Vertical,
     Children = [
       titleView state
@@ -292,7 +324,11 @@ let mainWindow state =
       state.Title
       |> Observable.subscribe (fun s -> window.Title <- s)
       |> ignore
-      ())
+      
+      state.IsAlwaysOnTop
+      |> Observable.subscribe (fun isAlwaysOnTop -> window.Topmost <- isAlwaysOnTop)
+      |> ignore
+    )
   )
 
 let settingsView state : IControl =

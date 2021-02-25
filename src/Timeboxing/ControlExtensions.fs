@@ -46,6 +46,11 @@ type Button with
   member this.SetupButton
     with set (setup : Button -> unit) =
       setup this
+      
+type CheckBox with
+  member this.SetupCheckBox
+    with set (setup : CheckBox -> unit) =
+      setup this
 
 type ListBox with
   member this.SetupListBox
@@ -55,6 +60,11 @@ type ListBox with
 type Window with
   member this.SetupWindow
     with set (action : Window -> unit) =
+      action this
+      
+type MenuItem with
+  member this.SetupMenuItem
+    with set (action : MenuItem -> unit) =
       action this
 
 type Style with

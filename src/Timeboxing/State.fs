@@ -10,6 +10,7 @@ type DurationType =
 
 type State = {
   IsExitRequested : BehaviorSubject<bool>
+  IsAlwaysOnTop : BehaviorSubject<bool>
   WorkDuration : BehaviorSubject<TimeSpan>
   BreakDuration : BehaviorSubject<TimeSpan>
   Time: BehaviorSubject<TimeSpan>
@@ -26,6 +27,7 @@ module State =
     
   let init () =
     let isExitRequested = new BehaviorSubject<bool>(false)
+    let isAlwaysOnTop = new BehaviorSubject<bool>(false)
     let workDuration = new BehaviorSubject<TimeSpan>(TimeSpan.FromMinutes 25.)
     let breakDuration = new BehaviorSubject<TimeSpan>(TimeSpan.FromMinutes 5.)
 
@@ -63,6 +65,7 @@ module State =
     
     {
       IsExitRequested = isExitRequested
+      IsAlwaysOnTop = isAlwaysOnTop
       WorkDuration = workDuration
       BreakDuration = breakDuration
       Time = time

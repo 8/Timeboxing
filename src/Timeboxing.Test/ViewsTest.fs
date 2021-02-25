@@ -4,14 +4,14 @@ open System.IO
 open System
 open System.Reflection
 
+open Avalonia.Controls
 open Xunit
 
-open Avalonia.Controls
 open Timeboxing
-open Timeboxing.Test.Preview
-open Timeboxing.Test.Render
 open Timeboxing.Program
 open Timeboxing.Views
+open Timeboxing.Test.Preview
+open Timeboxing.Test.Render
 
 let render settings name (controlFactory  : unit -> IControl)  =
   let (appBuilder,_) = createApp ()
@@ -65,7 +65,12 @@ let mainViewTest () =
 let settingsViewTest () =
   renderSizeAuto "settingsView" (State.init >> settingsView)
   
-  
+[<Fact>]
+let contextMenuViewTest() =
+  let toControl = fun c -> c :> IControl
+  renderSizeAuto "contextView-default" (State.init >> contextMenuView >> toControl)
+  renderSizeAuto "contextView-always-on-top" (State.init >> (fun s -> s.IsAlwaysOnTop.OnNext(true); s;) >> contextMenuView >> toControl)
+
 type ViewFactory = State -> IControl
 type StateFactory = unit -> State
 type ViewWithStateFactory = unit -> IControl
