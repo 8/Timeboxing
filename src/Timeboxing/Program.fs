@@ -1,38 +1,50 @@
 ﻿module Timeboxing.Program
+
 open System
 open Avalonia
 open Avalonia.ReactiveUI
 open Timeboxing.AppBuilderExtensions
-
 open Timeboxing.Views
 
-let mainWindowFactory state =
-  let window = mainWindow state
-  state.IsExitRequested
-  |> Observable.filter id
-  |> Observable.subscribe (fun _ -> window.Close ())
-  |> ignore
-  
-  window
+type AppState = {
+  MainWindowFactory : unit -> Avalonia.Controls.Window
+  State : State
+  Audio : IDisposable
+}
+
+let init () =
+  let mainWindowFrom state =
+    let window = mainWindow state
+    state.IsExitRequested
+    |> Observable.filter id
+    |> Observable.subscribe (fun _ -> window.Close ())
+    |> ignore
+    window
+    
+  let state = State.init ()
+  let audio = Audio.init(state)
+    
+  {
+    MainWindowFactory = (fun () -> mainWindowFrom state)
+    State = state
+    Audio = audio
+  }
 
 let createApp () =
-  
-  let state = State.init ()
-  let audio = Audio.setup state
-  
+    
+  let appState = lazy init ()
+
   let appBuilder =
     AppBuilder.Configure<Application>()
       .AddStyleFluentDark()
       .UsePlatformDetect()
-      .UseMainWindowFactory(fun () -> mainWindowFactory state)
+      .UseMainWindowFactory(fun () -> appState.Value.MainWindowFactory ())
       .UseReactiveUI()
-    
-  (appBuilder, state, audio)
+      
+  (appBuilder, appState)
 
-let runApp args (appBuilder, state : State, audio : IDisposable) =
-  let res = appBuilder.StartWithClassicDesktopLifetime args
-  audio.Dispose ()
-  res
+let runApp args (appBuilder, appState) =
+  appBuilder.StartWithClassicDesktopLifetime args
 
 [<EntryPoint>]
 let main args = createApp () |> runApp args

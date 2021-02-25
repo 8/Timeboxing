@@ -9,4 +9,5 @@ let fromStream (stream : Stream) : IImage =
   let image =  Avalonia.Svg.Skia.SvgImage(Source = source)
   upcast image
 
-let fromAsset asset = Assets.streamFrom asset |> fromStream
+let fromAsset asset =
+  Assets.streamFrom asset |> fromStream

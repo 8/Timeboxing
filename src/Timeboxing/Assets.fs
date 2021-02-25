@@ -27,10 +27,16 @@ let completeUri (uri : string) =
   else
     uri
 
-let streamFromUri uri =
-  let assetLoader = AvaloniaLocator.Current.GetService<IAssetLoader>()
+let streamFromUri (assetLoader: IAssetLoader) uri =
   let uri = uri |> completeUri |> Uri
   assetLoader.Open(uri, null)
   
-let streamFrom asset =
-  asset |> uri |> streamFromUri
+let streamFromAssetLoader assetLoader asset =
+  asset |> uri |> (streamFromUri assetLoader)
+
+let assetLoader () =
+  match AvaloniaLocator.Current.GetService<IAssetLoader>() with
+  | null -> raise <| failwith $"Could not get asset loader. Is the Avalonia Application already initialized?"
+  | loader -> loader
+
+let streamFrom = streamFromAssetLoader (assetLoader ())

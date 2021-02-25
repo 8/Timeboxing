@@ -3,61 +3,36 @@
 open System
 open System.IO
 open FSharp.Control.Reactive
-//open LibVLCSharp.Shared
-//
-//module Internal =
-//  let init () =
-//    try
-//      Core.Initialize()
-//      new LibVLC() |> Some
-//    with _ -> None
-//
-//  let defaultPath () =
-//    Path.Combine (Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Media", "Windows Notify.wav")
-//
-//  let mediaFromPath (path : string) (vlc : LibVLC) =
-//    new Media(vlc, path, FromType.FromPath)
-//    
-//  let mediaFromStream vlc stream =
-//    new Media(vlc, new StreamMediaInput(stream))
-//    
-//  let mediaFromAsset vlc asset =
-//    mediaFromStream vlc (Assets.streamFrom asset)
-//    
-//  let mediaNotification vlc =
-//    lazy mediaFromAsset vlc Assets.notification
-//    
-//  let playerFrom (media : Media) =
-//    new MediaPlayer (media)
-//
-//  let play (player : MediaPlayer) =
-//    player.Stop()
-//    player.Play()
-//
-//open Internal
-//
-//let setup (state : State) =
-//
-//  let vlc = init ()
-//  let media = vlc |> Option.map mediaNotification
-//  let player = media |> Option.map (fun media -> lazy (media.Value |> playerFrom))
-//  
-//  let subscribe (player : Lazy<MediaPlayer>) =
-//    state.CompletedTimeboxes
-//    |> Observable.pairwise
-//    |> Observable.filter (fun (t1, t2) -> t2 - t1 = 1)
-//    |> Observable.subscribe (fun _ -> play player.Value |> ignore)
-//    
-//  let subscription = player |> Option.map subscribe
-//    
-//  let dispose (disposeable : IDisposable) = disposeable.Dispose()
-//  let disposeAll () =
-//    subscription |> Option.iter dispose
-//    player |> Option.iter (fun l -> dispose l.Value)
-//    media |> Option.iter (fun l -> dispose l.Value)
-//    vlc |> Option.iter dispose
-//
-//  { new IDisposable with member this.Dispose() = disposeAll() }  
+open NAudio.Wave
+open NLayer.NAudioSupport
 
-let setup (state : State) =
-  { new IDisposable with member this.Dispose() = () }
+let init (state : State) =
+  
+  let stream = Assets.streamFrom Assets.notification
+  let builder = Mp3FileReaderBase.FrameDecompressorBuilder(fun wf -> upcast new Mp3FrameDecompressor(wf))
+  let reader = new Mp3FileReaderBase(stream, builder)
+  let device =
+    let device = new WasapiOut()
+    device.Init(reader)
+    device
+  
+  let play () =
+    device.Stop ()
+    reader.Seek(0L, SeekOrigin.Begin) |> ignore
+    device.Play ()
+    ()
+    
+  let subscription =
+    state.Time
+    |> Observable.pairwise
+    |> Observable.filter (fun (last, now) -> last = TimeSpan.FromSeconds(1.) && now = TimeSpan.Zero) 
+    |> Observable.subscribe (fun _ -> play ())
+    
+  let disposeAll () =
+    device.Dispose ()
+    reader.Dispose ()
+    stream.Dispose ()
+    subscription.Dispose ()
+    ()
+  
+  { new IDisposable with member this.Dispose() = disposeAll () }
